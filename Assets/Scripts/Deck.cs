@@ -45,22 +45,22 @@ public class Deck
     {
         for (int i = 0; i < clubArray.Length; i++)
         {
-            Card card = new Card(i + 2, clubArray[i]);
+            Card card = new Card(i, clubArray[i]);
             cardsStorage.Add(card);
         }
         for (int i = 0; i < diamondArray.Length; i++)
         {
-            Card card = new Card(i + 2, diamondArray[i]);
+            Card card = new Card(i, diamondArray[i]);
             cardsStorage.Add(card);
         }
         for (int i = 0; i < heartArray.Length; i++)
         {
-            Card card = new Card(i + 2, heartArray[i]);
+            Card card = new Card(i, heartArray[i]);
             cardsStorage.Add(card);
         }
         for (int i = 0; i < spadeArray.Length; i++)
         {
-            Card card = new Card(i + 2, spadeArray[i]);
+            Card card = new Card(i, spadeArray[i]);
             cardsStorage.Add(card);
         }
         
