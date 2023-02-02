@@ -16,18 +16,22 @@ public class Deck
     public void ResetDeck()
     {
         leftCards.Clear();
-        leftCards.AddRange(cardsStorage);
     }
     public void Shuffle()
     {
-        for (int i = 0; i < cardsStorage.Count; i++)
+        int shuffleCount = 5; // сколько раз перемешивать карты
+        Card temp;
+        for (int i = 0; i < shuffleCount; i++)
         {
-            int randomIndex = Random.Range(0, cardsStorage.Count);
-            Card temp = cardsStorage[i];
-            cardsStorage[i] = cardsStorage[randomIndex];
-            cardsStorage[randomIndex] = temp;
+            for (int j = 0; j < cardsStorage.Count; j++)
+            {
+                int nextCard = Random.Range(0, cardsStorage.Count);
+                temp = cardsStorage[i];
+                cardsStorage[i] = cardsStorage[nextCard];
+                cardsStorage[nextCard] = temp;
+            }
         }
-
+        leftCards.AddRange(cardsStorage);
     }
 
     public Card GiveTopCard()
