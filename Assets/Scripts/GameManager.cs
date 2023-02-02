@@ -13,10 +13,15 @@ public class GameManager : MonoBehaviour
     public GameObject myHand;
     public GameObject enemyHand;
 
+    public List<Card> myCards;
+    public List<Card> enemyCards;
+
     public GameObject cardPrefab;
     public GameObject backCardPrefab;
 
     Deck deck;
+
+    Hand hand = new Hand();
 
     private void Start()
     {
@@ -27,6 +32,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, myHand.transform);
             card.GetComponent<Image>().sprite = deck.GiveTopCard().image;
+            int a = deck.GiveTopCard().value;
         }
 
         for (int i = 0; i < 2; i++)
