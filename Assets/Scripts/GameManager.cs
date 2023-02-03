@@ -3,50 +3,132 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using System.Linq;
 
-public class GameManager : MonoBehaviour
+namespace com.euzhene.twentyone
 {
-    public Sprite[] picsOfClubSuit;
-    public Sprite[] picsOfDiamondSuit;
-    public Sprite[] picsOfHeartSuit;
-    public Sprite[] picsOfSpadeSuit;
+    public delegate void ScoreChangedCallback();
 
-    public GameObject myHand;
-    public GameObject enemyHand;
-
-    //карты
-    List<int> myCards = new List<int>(); 
-    List<int> enemyCards = new List<int>();
-
-    public GameObject cardPrefab;
-    public GameObject backCardPrefab;
-
-    Deck deck;
-
-    Hand hand = new Hand();
-
-    public TMP_Text scoreText;
-
-    private void Start()
+    public class GameManager : MonoBehaviourPunCallbacks
     {
-        deck = new Deck(picsOfClubSuit, picsOfDiamondSuit, picsOfHeartSuit, picsOfSpadeSuit);
+        #region Serializable fields
+        public Sprite[] picsOfClubSuit;
+        public Sprite[] picsOfDiamondSuit;
+        public Sprite[] picsOfHeartSuit;
+        public Sprite[] picsOfSpadeSuit;
 
-        //тут проверка на правильности генерации карт и т.п
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject cardObj = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, myHand.transform);
-            Card card = deck.GiveTopCard();
-            cardObj.GetComponent<Image>().sprite = card.image;
-            myCards.Add(card.value);
-        }
-        hand.Scoring(myCards, scoreText);
+        public Transform myHandTransform;
+        public Transform enemyHandTransform;
 
-        for (int i = 0; i < 2; i++)
+        public GameObject cardPrefab;
+        public GameObject backCardPrefab;
+
+        public TMP_Text myScoreText;
+
+        #endregion
+
+        private Deck deck;
+        private int playerCount = 2;
+        private List<Hand> players = new List<Hand>();
+
+        private Hand currentHand;
+        #region Constants
+        private const int MAX_SCORE_IN_HAND = 21;
+        private const int START_AMOUNT_OF_CARDS = 2;
+        #endregion
+        public override void OnJoinedRoom()
         {
-            GameObject cardObj = Instantiate(backCardPrefab, Vector2.zero, Quaternion.identity, enemyHand.transform);
-            Card card = deck.GiveTopCard();
-            enemyCards.Add(card.value);
+            players.Add(new Hand(visible:false, enemyHandTransform));
         }
+        private void Start()
+        {
+            InitPlayer();
+            deck = new Deck(picsOfClubSuit, picsOfDiamondSuit, picsOfHeartSuit, picsOfSpadeSuit);
+            ObserveChanges();
+            HandOutStartPack();
+        }
+        private void InitPlayer()
+        {
+
+            players.Add(new Hand(visible: true, myHandTransform));
+           // players.Add(new Hand(visible: false, enemyHandTransform));
+            currentHand = players.First();
+        }
+
+        public void Hit()
+        {
+            GiveOneCard(currentHand);
+            ChangeCurrentHand();
+        }
+        public void Stand()
+        {
+            currentHand.stand = true;
+            ChangeCurrentHand();
+        }
+
+        private void ChangeCurrentHand()
+        {
+            int currentHandIndex = players.IndexOf(currentHand);
+            do
+            {
+                if (currentHandIndex == players.Count - 1)
+                {
+                    currentHandIndex = 0;
+                }
+                else
+                {
+                    currentHandIndex++;
+                }
+            } while (players[currentHandIndex].stand);
+            currentHand = players[currentHandIndex];
+
+        }
+        private void HandOutStartPack()
+        {
+            //пока так
+            for (int i = 0; i < START_AMOUNT_OF_CARDS; i++)
+            {
+                GiveOneCard(players[0]);
+            }
+
+            // for (int i = 0; i < START_AMOUNT_OF_CARDS; i++)
+            // {
+            //     GiveOneCard(players[1]);
+            // }
+        }
+        private void GiveOneCard(Hand hand)
+        {
+            GameObject prefab = hand.visible ? cardPrefab : backCardPrefab;
+            GameObject cardObj = Instantiate(prefab, Vector2.zero, Quaternion.identity, hand.transform);
+            Card card = deck.GiveTopCard();
+            hand.TakeCard(card);
+            if (hand.visible)
+                cardObj.GetComponent<Image>().sprite = card.image;
+        }
+
+        private void ObserveChanges()
+        {
+            foreach (Hand hand in players)
+            {
+                hand.scoreChanged = (() =>
+{
+    if (!hand.visible)
+        Debug.LogFormat("enemy score: {0}", hand.score);
+    else
+        myScoreText.text = hand.score.ToString();
+    CheckPlayerScore(hand);
+});
+            }
+
+        }
+        private void CheckPlayerScore(Hand hand)
+        {
+            if (hand.score > MAX_SCORE_IN_HAND)
+            {
+                Debug.Log("Should be game over for you");
+            }
+        }
+
     }
 }
-

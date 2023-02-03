@@ -21,8 +21,6 @@ public class Card
         SEVEN = 7, EIGHT = 8, NINE = 9, TEN = 10
     }
 
-    //Names of enumeration types (also called enums) in general should follow the standard type-naming rules (PascalCasing, etc.)
-    //source:https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-classes-structs-and-interfaces#naming-enumerations
     public enum CardName
     {
         JACKET, LADY, KING, ACE, SIX,
