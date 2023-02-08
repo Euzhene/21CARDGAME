@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace com.euzhene.twentyone
 {
@@ -10,11 +11,6 @@ namespace com.euzhene.twentyone
         void Start()
         {
             PhotonNetwork.ConnectUsingSettings();
-        }
-
-        void Update()
-        {
-
         }
 
         public override void OnConnectedToMaster()
@@ -27,7 +23,9 @@ namespace com.euzhene.twentyone
         }
 
         public void Play() {
-            PhotonNetwork.JoinRandomOrCreateRoom(expectedMaxPlayers: 5);
+            PhotonNetwork.JoinRandomOrCreateRoom(roomOptions: new RoomOptions(){
+                MaxPlayers=2,
+            });
         }
 
     }

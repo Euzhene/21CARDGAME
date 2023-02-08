@@ -447,7 +447,6 @@ GameObject:
   m_Component:
   - component: {fileID: 839761448}
   - component: {fileID: 839761449}
-  - component: {fileID: 839761450}
   m_Layer: 5
   m_Name: Enemy's hand
   m_TagString: Untagged
@@ -501,22 +500,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &839761450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839761447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &893169422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,6 +1458,7 @@ GameObject:
   - component: {fileID: 1508890584}
   - component: {fileID: 1508890583}
   - component: {fileID: 1508890586}
+  - component: {fileID: 1508890587}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1600,11 +1584,36 @@ MonoBehaviour:
   - {fileID: 21300000, guid: da6a082efa6b6694f92fad9442f30fa9, type: 3}
   - {fileID: 21300000, guid: 78998314942cf794786a837260fddeeb, type: 3}
   - {fileID: 21300000, guid: 397fcc769693d0747ac7c79d662555d9, type: 3}
-  myHandTransform: {fileID: 32808358}
-  enemyHandTransform: {fileID: 839761448}
+  handsTransform:
+  - {fileID: 32808358}
+  - {fileID: 839761448}
   cardPrefab: {fileID: 3283396182766784906, guid: 29d544dc6bc9d2e34ace6725657f9145, type: 3}
   backCardPrefab: {fileID: 8736767654768043060, guid: 034c331c69f3747d38470bf4b105dde8, type: 3}
+  StandBtn: {fileID: 1552434664}
+  HitBtn: {fileID: 134421647}
   myScoreText: {fileID: 1306071728}
+--- !u!114 &1508890587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508890582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1552434664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1644511902
 RectTransform:
   m_ObjectHideFlags: 0

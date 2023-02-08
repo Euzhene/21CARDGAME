@@ -4,9 +4,11 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 namespace com.euzhene.twentyone
 {
+    public delegate void ScoreChangedCallback();
     public class Hand
     {
         public Transform transform { get; private set; }
@@ -22,14 +24,12 @@ namespace com.euzhene.twentyone
                 scoreChanged?.Invoke();
             }
         }
-        public bool visible { get; private set; }
         public bool stand { get; set; } = false;
 
         public ScoreChangedCallback scoreChanged = null;
 
-        public Hand(bool visible, Transform transform)
+        public Hand(Transform transform)
         {
-            this.visible = visible;
             this.transform = transform;
         }
 
