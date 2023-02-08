@@ -4,15 +4,39 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Hand : MonoBehaviour
+namespace com.euzhene.twentyone
 {
-    int score;
-    public void Scoring(List<int> cardsValue, TMP_Text scoreText)
+    public delegate void ScoreChangedCallback();
+    public class Hand
     {
-        score = 0;
-        for (int i = 0; i < cardsValue.Count; i++)
-            score += cardsValue[i];
-        scoreText.text = score.ToString();
+        public Transform transform { get; private set; }
+        public List<Card> cards { get; private set; } = new List<Card>();
+
+        private int _score = 0;
+        public int score
+        {
+            get { return _score; }
+            private set
+            {
+                _score = value;
+                scoreChanged?.Invoke();
+            }
+        }
+        public bool stand { get; set; } = false;
+
+        public ScoreChangedCallback scoreChanged = null;
+
+        public Hand(Transform transform)
+        {
+            this.transform = transform;
+        }
+
+        public void TakeCard(Card newCard)
+        {
+            cards.Add(newCard);
+            score += newCard.value;
+        }
     }
 }

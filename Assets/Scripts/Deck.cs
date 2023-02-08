@@ -19,7 +19,7 @@ public class Deck
     }
     public void Shuffle()
     {
-        int shuffleCount = 5; // сколько раз перемешивать карты
+        int shuffleCount = 5;
         Card temp;
         for (int i = 0; i < shuffleCount; i++)
         {
