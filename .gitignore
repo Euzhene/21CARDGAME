@@ -47,6 +47,12 @@ ExportedObj/
 *.opendb
 *.VC.db
 .vscode
+app_Data
+app_BurstDebugInformation_DoNotShip
+ProjectSettings
+.vsconfig
+test
+UnityPlayer.so
 
 # Unity3D generated meta files
 *.pidb.meta
